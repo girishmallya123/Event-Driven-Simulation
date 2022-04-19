@@ -11,6 +11,8 @@ from fifo_queue import FifoQueue
 from lifo_queue import LifoQueue
 from lru_cache import LRUCache
 from lfu_cache import LFUCache
+from mfu_cache import MFUCache
+from no_cache import NoCache
 import constants
 import pandas as pd
 
@@ -28,6 +30,10 @@ def run_simulation(cache_policies, request_events, params):
             cache = LRUCache(params.cache_capacity)
         elif policy == "LFU":
             cache = LFUCache(params.cache_capacity)
+        elif policy == "MFU":
+            cache = MFUCache(params.cache_capacity)
+        elif policy == "NO_CACHING":
+            cache = NoCache(params.cache_capacity)
         else:
             raise InvalidCachingPolicyException
 
@@ -87,7 +93,7 @@ def main():
         _event = Event(_file)
         request_events.append(_event)
 
-    cache_policies = ['LIFO', 'FIFO', 'LRU', 'LFU']
+    cache_policies = ['LIFO', 'FIFO', 'LRU', 'LFU', 'MFU', 'NO_CACHING']
 
     results = run_simulation(cache_policies, request_events, params)
     results_df = {}
