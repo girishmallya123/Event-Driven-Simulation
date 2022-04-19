@@ -11,6 +11,7 @@ from fifo_queue import FifoQueue
 from lifo_queue import LifoQueue
 from lru_cache import LRUCache
 import constants
+import pandas as pd
 
 def run_simulation(cache_policies, request_events, params):
     avg_turnaround_times = []
@@ -86,6 +87,11 @@ def main():
 
     cache_policies = ['LIFO', 'FIFO', 'LRU']
     results = run_simulation(cache_policies, request_events, params)
-    print(results)
+    results_df = {}
+    results_df['policies'] = cache_policies
+    results_df['mean_turnaround_times'] = results
+    
+    df = pd.DataFrame(results_df)
+    df.to_csv("results.csv", index=False)
 if __name__ == "__main__":
     main()
