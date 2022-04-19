@@ -10,6 +10,7 @@ from event import Event
 from fifo_queue import FifoQueue
 from lifo_queue import LifoQueue
 from lru_cache import LRUCache
+from lfu_cache import LFUCache
 import constants
 import pandas as pd
 
@@ -25,13 +26,14 @@ def run_simulation(cache_policies, request_events, params):
             cache = LifoQueue(params.cache_capacity)
         elif policy == "LRU":
             cache = LRUCache(params.cache_capacity)
+        elif policy == "LFU":
+            cache = LFUCache(params.cache_capacity)
         else:
             raise InvalidCachingPolicyException
 
         current_time = request_events[0].req_file.arrival_time
         for i, event in enumerate(request_events):
             cache_hit = cache.find(event.req_file)
-
             if cache_hit:
                 event.finish_time = current_time + float(event.req_file.file_size / params.cache_transmission_rate) 
             else:
@@ -85,7 +87,8 @@ def main():
         _event = Event(_file)
         request_events.append(_event)
 
-    cache_policies = ['LIFO', 'FIFO', 'LRU']
+    cache_policies = ['LIFO', 'FIFO', 'LRU', 'LFU']
+
     results = run_simulation(cache_policies, request_events, params)
     results_df = {}
     results_df['policies'] = cache_policies
