@@ -10,3 +10,6 @@ class Config:
         self.poisson_lambda = parameters.poisson_lambda
         self.number_of_requests = parameters.number_of_requests
         self.iterations = parameters.iterations
+        self.cache_capacity = parameters.cache_capacity
+        self.network_transmission_rate = parameters.network_transmission_rate
+        self.cache_transmission_rate = parameters.cache_transmission_rate

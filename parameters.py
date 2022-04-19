@@ -25,3 +25,6 @@ number_of_requests = 1000
     Simulation parameters
 '''
 iterations = 200
+cache_capacity = 50
+network_transmission_rate = 20
+cache_transmission_rate = 200
