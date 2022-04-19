@@ -2,7 +2,7 @@
     parameter N: number of files present in the origin servers on the internet.
     Assume this to be fairly large, say 1000+
 '''
-N=1000
+N=100000
 
 '''
     Pareto Distribution Parameters:
@@ -19,12 +19,12 @@ k_p = 0.3
 
 '''
 poisson_lambda= 100
-number_of_requests = 1000
+number_of_requests = 10000
 
 '''
     Simulation parameters
 '''
 iterations = 200
-cache_capacity = 50
+cache_capacity = 200
 network_transmission_rate = 20
 cache_transmission_rate = 200

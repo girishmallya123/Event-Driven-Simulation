@@ -3,3 +3,6 @@ class InvalidParameterException(Exception):
 
 class InvalidParetoMode(Exception):
     pass
+
+class InvalidCachingPolicyException(Exception):
+    pass

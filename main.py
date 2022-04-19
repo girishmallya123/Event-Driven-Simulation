@@ -1,7 +1,7 @@
 import logging
 from config_reader import Config
 import pareto_sampler
-from exceptions import InvalidParameterException
+from exceptions import InvalidParameterException, InvalidCachingPolicyException
 import sys
 import numpy as np
 import poisson_process
@@ -9,6 +9,7 @@ from file import File
 from event import Event
 from fifo_queue import FifoQueue
 from lifo_queue import LifoQueue
+from lru_cache import LRUCache
 import constants
 
 def run_simulation(cache_policies, request_events, params):
@@ -19,10 +20,12 @@ def run_simulation(cache_policies, request_events, params):
 
         if policy == "FIFO":
             cache = FifoQueue(params.cache_capacity)
-        if policy == "LIFO":
+        elif policy == "LIFO":
             cache = LifoQueue(params.cache_capacity)
+        elif policy == "LRU":
+            cache = LRUCache(params.cache_capacity)
         else:
-            cache = FifoQueue(params.cache_capacity)
+            raise InvalidCachingPolicyException
 
         current_time = request_events[0].req_file.arrival_time
         for i, event in enumerate(request_events):
@@ -77,11 +80,11 @@ def main():
     for event in event_counter:
         _file_arrival_time = event
         random_file_ix = np.random.choice(params.N, size=1, replace=True, p= file_pop)
-        _file = File(random_file_ix, file_sizes[random_file_ix], _file_arrival_time)
+        _file = File(random_file_ix[0], file_sizes[random_file_ix], _file_arrival_time)
         _event = Event(_file)
         request_events.append(_event)
 
-    cache_policies = ['LIFO', 'FIFO']
+    cache_policies = ['LIFO', 'FIFO', 'LRU']
     results = run_simulation(cache_policies, request_events, params)
     print(results)
 if __name__ == "__main__":
